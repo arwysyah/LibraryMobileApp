@@ -49,12 +49,12 @@ class Register extends Component {
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor:"black"}} >
         <View style={{flex: 1}}>
           <View style={{height: 60}}></View>
           <View
             style={{
-              backgroundColor: 'white',
+              backgroundColor: 'black',
               height: 80,
               alignItems: 'center',
             }}>
@@ -75,7 +75,7 @@ class Register extends Component {
             }}></View>
 
           <View style={{height: 40}} style={{marginHorizontal: 35}}>
-            <Text>Username</Text>
+            <Text style={{color:"white"}}>Username</Text>
             <View>
               <TextInput
                 onChangeText={username => this.setState({username: username})}
@@ -92,7 +92,7 @@ class Register extends Component {
                 }}
               />
             </View>
-            <Text>Email</Text>
+            <Text style={{color:"white"}}>Email</Text>
             <View style={{justifyContent: 'center'}}>
               <TextInput
                 onChangeText={email => this.setState({email: email})}
@@ -108,7 +108,7 @@ class Register extends Component {
               />
             </View>
 
-            <Text>Password</Text>
+            <Text style={{color:"white"}}>Password</Text>
             <View>
               <TextInput
                 onChangeText={password => this.setState({password: password})}

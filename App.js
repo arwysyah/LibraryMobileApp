@@ -170,16 +170,10 @@ const AppNavigator = createStackNavigator(
     },
     Detail: {
       screen: Detail,
-      navigationOptions: {
-        title: 'Detail',
-        headerStyle: {
-          transparent: true,
-        },
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          color: '#000',
-        },
-      },
+      navigationOptions: () => ({
+        header: null,
+       
+      }),
     },
   
     UserProfile: {
@@ -280,10 +274,10 @@ const BottomNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      activeTintColor: 'black',
+      activeTintColor: 'white',
       inactiveTintColor: 'grey',
       style: {
-        backgroundColor: 'white',
+        backgroundColor: 'black',
         borderTopWidth: 0,
         shadowOffset: {width: 5, height: 3},
         shadowColor: 'black',

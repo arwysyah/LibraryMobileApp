@@ -1,24 +1,25 @@
 import React, {Component} from 'react';
 import {
-  SafeAreaView,
+ 
   StyleSheet,
   ScrollView,
   View,
   Text,
   Image,
-  TextInput,
-  StatusBar,
+  TouchableOpacity
+ 
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+
 
 import {getBook} from '../Redux/Actions/book';
 import {connect} from 'react-redux';
 
 import {Badge} from 'native-base';
-import { TouchableOpacity } from 'react-native';
+
 import Iconza from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
-import Navbar from './Navbar'
+import Search from './Search'
+
 
 
 class Home extends Component {
@@ -26,6 +27,7 @@ class Home extends Component {
     super();
     this.state = {
       bookData: [],
+      data:[]
     };
   }
   async componentDidMount() {
@@ -36,6 +38,7 @@ class Home extends Component {
      
       this.setState({
         bookData: this.props.data.bookData,
+        
      
       });
       console.log('asyncstorage',await AsyncStorage.getItem('jwt'))
@@ -47,43 +50,22 @@ class Home extends Component {
   render() {
     // const bookData = console.log(this.props.navigation.navigate('id'))
     
-    
-    return (
-      <View style={{flex: 1}}>
+        return (
+      <View style={{  backgroundColor: 'black',
+      color: '#ccc',flex:1}}>
         <View
           style={{
             height: 55,
             flexDirection: 'row',
           }}>
           <View>
-            <View>
-              <TextInput
-                placeholder="search"
-                style={{
-                  top: 23,
-                  backgroundColor: '#E5E6EE',
-                  borderWidth: 1,
-                  borderRadius: 15,
-                  width: 194,
-                  height: 30,
-                  paddingLeft: 53,
-                  paddingRight: 20,
-                  left: 140,
-                }}
-              />
-
-              <Icon
-                name={'ios-search'}
-                size={20}
-                color={'black'}
-                style={{position: 'absolute', left: 155, top: 28}}
-              />
+           < Search />
             
               <Text
-                style={{left: 20,fontWeight:'bold', fontSize: 14, fontFamily: 'Airbnb Cerl App'}}>
+                style={{left: 20,fontWeight:'bold',color:'white', fontSize: 14, fontFamily: 'Airbnb Cerl App'}}>
                 LIBRARY APP  <Iconza  name={'library'} size={30} style={{top:32}}/>
               </Text>
-            </View>
+           
           </View>
         </View>
         <ScrollView>
@@ -182,7 +164,7 @@ class Home extends Component {
               </ScrollView>
               
               <View style={{marginLeft: 7, top: 41, height: 40, width: 171}}>
-                <Text style={{fontSize: 18}}>Popular Books</Text>
+                <Text style={{fontSize: 18,color:'white',fontWeight:'bold'}}>Popular Books</Text>
               </View>
 
               <ScrollView
@@ -199,6 +181,9 @@ class Home extends Component {
 
                         marginRight: 10,
                       }}>
+                        <TouchableOpacity onPress={()=>{
+ this.props.navigation.navigate('Detail',{book:{...book}})
+                        }}>
                       <View style={{elevation: 8}}>
                         <Image
                           style={{height: 175, width: 124, borderRadius: 12}}
@@ -206,11 +191,13 @@ class Home extends Component {
                             uri: book.image_url,
                           }}
                         />
+                        
                       </View>
+                      </TouchableOpacity>
                       <Text style={{textAlign: 'center', color: 'grey'}}>
                         {book.author}
                       </Text>
-                      <Text style={{textAlign: 'center', fontSize: 20}}>
+                      <Text style={{textAlign: 'center', fontSize: 20,color:'white'}}>
                         {book.tittle}
                       </Text>
                     </View>
@@ -218,7 +205,7 @@ class Home extends Component {
                 })}
               </ScrollView>
               <View style={{marginLeft: 35, top: 41, height: 40, width: 171}}>
-                <Text style={{fontSize: 18}}>List Books</Text>
+                <Text style={{fontSize: 18,color:'white',fontWeight:'bold'}}>List Books</Text>
               </View>
             </View>
             {this.state.bookData.map((book, index) => {
@@ -252,7 +239,7 @@ class Home extends Component {
                   </View>
                   <View
                     style={{top: 40, paddingLeft: 10, alignItems: 'center'}}>
-                    <Text style={{fontSize: 18}}> {book.tittle}</Text>
+                    <Text style={{fontSize: 18,color:'white'}}> {book.tittle}</Text>
                     <Text
                       style={{
                         fontSize: 15,

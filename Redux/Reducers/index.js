@@ -7,7 +7,7 @@ import {getBooks} from './books';
 // import {deleteBook} from './books'
 // import {getGenre} from './genre'
 // import {getStatus} from './status'
-// import {getTitle} from './title'
+import {getTitle} from './getTitle'
 // import {getCategories} from './categories'
 
 import {Auth} from './Users'
@@ -21,7 +21,7 @@ const appReducer = combineReducers({
  
   // getGenre,
   // getStatus,
-  // getTitle,
+  getTitle,
   // getCategories,
 borrow,
   Auth,

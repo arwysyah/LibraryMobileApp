@@ -57,9 +57,9 @@ class Login extends Component{
        
       })(ToastAndroid.show('Login Success', ToastAndroid.SHORT)) 
     }else{
-      alert(res.data.message)
+      (ToastAndroid.show(res.data.message,ToastAndroid.SHORT))
     }
-    console.log('async',AsyncStorage)
+    // console.log('async',AsyncStorage)
 
   }).catch(err =>{
     console.log(err)
@@ -81,12 +81,12 @@ class Login extends Component{
     return(
 
 
-<ScrollView>
+<ScrollView style={{backgroundColor:'black'}}>
 
-    <View style={{ flex:1}}>
+    <View style={{ flex:1,backgroundColor:'black'}}>
       <View style={{height:60}}></View>
-      <View style={{backgroundColor:'white',height:80,alignItems:'center'}}>
-      <Text style={{fontSize: 25, fontWeight: 'bold', color: '#4B4C72'}}>
+      <View style={{backgroundColor:'black',height:80,alignItems:'center'}}>
+      <Text style={{fontSize: 25, fontWeight: 'bold', color: '#E5E6EE'}}>
 
       Welcome to My Library Mobile App
       </Text> 
@@ -97,7 +97,7 @@ class Login extends Component{
    
       </View>
       <View style={{height:40}} style={{marginHorizontal:27}}>
-        <Text>Email</Text>
+        <Text style={{color:'white'}}>Email</Text>
         <View style={{justifyContent:'center'}}>
           <TextInput 
         
@@ -111,7 +111,7 @@ class Login extends Component{
           width:284
         }} />
         </View>
-        <Text>Password</Text>
+        <Text style={{color:'white'}}>Password</Text>
         <View>
           <TextInput 
             onChangeText={(password) => this.setState({password:password})}
@@ -150,13 +150,13 @@ class Login extends Component{
           </View>
           <View>
         
-          <Text style={{fontSize:20,fontFamily:' Airbnb Cereal App',fontWeight:"bold",color:'#4B4C72',left:50}}>
+          <Text style={{fontSize:20,fontFamily:' Airbnb Cereal App',fontWeight:"bold",color:'#4B4C72',left:20}}>
             Forgot Password
           </Text>
           </View>
-          <View>
+          
           </View>
-          </View>
+          
           
        
     

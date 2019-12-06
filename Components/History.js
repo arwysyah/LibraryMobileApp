@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet,RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import Navbar from './Navbar';
 import decode from 'jwt-decode';
 import axios from 'axios';
+import {Icon, Button} from 'native-base';
 
-import Histroies from './Histories';
 import {ScrollView} from 'react-native-gesture-handler';
-class History extends Component {
+export default class History extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,80 +27,148 @@ class History extends Component {
     axios
       .get(`http://192.168.100.155:9000/history/${userId}`)
       .then(result => {
-        console.log(result, 'res');
+        // console.log(result, 'res');
         this.setState({
           history: result.data.response,
         });
-        console.log('result data', result.data.response);
-        console.log('object', this.state.history);
+        // console.log('result data', result.data.response);
+        // console.log('object', this.state.history);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
 
-    console.log(userId);
-    console.log("object",result.data.response)
+    // console.log(userId);
+    // console.log("object",result.data.response)
   }
 
+  dateFormat = date_data => {
+    // console.log(date_data);
+    let arrDate = String(date_data)
+      .slice(0, 10)
+      .split('-')
+      .reverse();
+    switch (Number(arrDate[1])) {
+      case 1:
+        arrDate[1] = ' January ';
+        break;
+      case 2:
+        arrDate[1] = ' February ';
+        break;
+      case 3:
+        arrDate[1] = ' March ';
+        break;
+      case 4:
+        arrDate[1] = ' April ';
+        break;
+      case 5:
+        arrDate[1] = ' Mei ';
+        break;
+      case 6:
+        arrDate[1] = ' June ';
+        break;
+      case 7:
+        arrDate[1] = ' Jule ';
+        break;
+      case 8:
+        arrDate[1] = ' August ';
+        break;
+      case 9:
+        arrDate[1] = ' September ';
+        break;
+      case 10:
+        arrDate[1] = ' October ';
+        break;
+      case 11:
+        arrDate[1] = ' November ';
+        break;
+      case 12:
+        arrDate[1] = ' December ';
+        break;
+    }
+    // console.log(arrDate);
+
+    return arrDate;
+  };
+
   render() {
+    console.log(
+      'history borrow at',
+      this.state.history.borrow_at,
+      this.state.history.return_at,
+    );
     return (
-      <ScrollView>
-        <View style={{ flex: 1}}>
-          <View
-            style={{
-           backgroundColor:'grey',
-              height: 150,
-              justifyContent: 'center',
+      <View style={{backgroundColor:'black',flex:1}}>
+        <View style={{backgroundColor:'black'}}>
+          <Button
+            transparent
+            onPress={() => {
+              this.props.navigation.goBack();
             }}>
-            <Text style={{fontSize: 30, textAlign: 'center',fontWeight:'bold'}}>
-              This is Your History
+               
+            <Icon style={{color: 'white'}} name="arrow-back" />
+            <Text
+              style={{color: 'white', fontSize: 23, alignContent: 'center',left:-140,fontWeight:"bold"}}>
+              History
             </Text>
-          </View>
-          {this.state.history.map((history,index)=>(
-          <View style={{ flex: 1}}
-          key={index}>
-            <View style={{height: 300}}>
-              <View
-                style={{
-                  top:20,
-                  height: 185,
-                  width: 124,
-                  borderRadius: 15,
-                
-                  flexDirection:'row',
-                  marginHorizontal:40
-                }}>
-                <Image
-                  style={{height: 185, width: 124, borderRadius: 15}}
-                  source={{uri : history.image_url}}
-                />
-                  <View style={{top: 40, paddingLeft: 10, alignItems: 'center'}}>
-                  <Text style={{fontSize: 18}}>{history.status}</Text>
-                  <Text
+          </Button>
+        </View>
+
+        <ScrollView>
+          <View style={{flex: 1,
+             
+                backgroundColor: 'black',
+                 color: '#ccc',}}>
+            <View
+              style={{
+                backgroundColor: 'black',
+                 color: '#ccc',
+                height: 150,
+                justifyContent: 'center',
+              }}>
+            <Image style={{height:150,width:400}} source={require('./assets/dark.jpg')}/>
+            </View>
+            {this.state.history.map((history, index) => (
+              <View style={{flex: 1}} key={index}>
+                <View style={{height: 200}}>
+                  <View
                     style={{
-                      fontSize: 20,
-                      fontWeight:'bold',
-                      alignItems: 'center',
-                     
+                      top: 20,
+                      height: 185,
+                      width: 200,
+                      borderRadius: 15,
+
+                      flexDirection: 'row',
+                      marginHorizontal: 40,
                     }}>
-                    {history.tittle}
-                  </Text>
-                  
+                    <Image
+                      style={{height: 130, width: 90, borderRadius: 15}}
+                      source={{uri: history.image_url}}
+                    />
+                    <View
+                      style={{top: 20, paddingLeft: 10, alignItems: 'center'}}>
+                      <Text style={{fontSize: 18,color:'white'}}>
+                        {this.dateFormat(history.borrow_at)}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 'bold',
+                          alignItems: 'center',color:'white'
+                        }}>
+                        {history.tittle}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               </View>
-            </View>
-          
+            ))}
           </View>
-            ))} 
-            
-        </View>
-        
-        
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
-export default History;
 
 const styles = StyleSheet.create({
   button: {

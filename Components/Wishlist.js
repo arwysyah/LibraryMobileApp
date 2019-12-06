@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity,Icon, Button,Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import Navbar from './Navbar';
 import decode from 'jwt-decode';
 import axios from 'axios';
+import {Icon, Button} from 'native-base';
 
-import Histroies from './Histories';
 import {ScrollView} from 'react-native-gesture-handler';
 class Wishlist extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Wishlist: [],
-      
     };
   }
   // async refresh() {
@@ -34,88 +32,156 @@ class Wishlist extends Component {
     const userToken = await AsyncStorage.getItem('jwt');
     const user = await decode(userToken);
     const userId = user.result.id;
-    this.setState({refresh:false})
-    
-  
-   axios.get(`http://192.168.100.155:9000/wishlists/${userId}`).then(result => {
-      console.log(result, 'res');
-      this.setState({
-        Wishlist: result.data.response,
+    this.setState({refresh: false});
+
+    axios
+      .get(`http://192.168.100.155:9000/wishlists/${userId}`)
+      .then(result => {
+        // console.log(result, 'res');
+        this.setState({
+          Wishlist: result.data.response,
+        });
+        console.log('result data', result.data.response);
+        console.log('object', this.state.Wishlist);
+      })
+      .catch(err => {
+        console.log(err);
       });
-      console.log('result data', result.data.response);
-      console.log('object', this.state.Wishlist);
-    })
-    .catch(error => {
-      console.log(error);
-    });
 
-  console.log(userId);
+    console.log(userId);
   }
-
+  dateFormat = date_data => {
+    // console.log(date_data);
+    let arrDate = String(date_data)
+      .slice(0, 10)
+      .split('-')
+      .reverse();
+    switch (Number(arrDate[1])) {
+      case 1:
+        arrDate[1] = ' January ';
+        break;
+      case 2:
+        arrDate[1] = ' February ';
+        break;
+      case 3:
+        arrDate[1] = ' March ';
+        break;
+      case 4:
+        arrDate[1] = ' April ';
+        break;
+      case 5:
+        arrDate[1] = ' Mei ';
+        break;
+      case 6:
+        arrDate[1] = ' June ';
+        break;
+      case 7:
+        arrDate[1] = ' Jule ';
+        break;
+      case 8:
+        arrDate[1] = ' August ';
+        break;
+      case 9:
+        arrDate[1] = ' September ';
+        break;
+      case 10:
+        arrDate[1] = ' October ';
+        break;
+      case 11:
+        arrDate[1] = ' November ';
+        break;
+      case 12:
+        arrDate[1] = ' December ';
+        break;
+    }
+  };
   render() {
+    console.log(this.state.Wishlist.borrow_at)
     return (
-      
-      <ScrollView>
-         {/* <TouchableOpacity onPress={() => this.refresh()}> */}
-                  {/* <Text></Text> */}
-              {/* <Button 
+      <View style={{backgroundColor:'black',flex:1}}>
+        <View style={{backgroundColor:'black'}}>
+          <Button
+            transparent
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}>
+            <Icon style={{color: 'white'}} name="arrow-back" />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 23,
+                alignContent: 'center',
+                left: -140,
+                fontWeight: 'bold',
+              }}>
+              Wishlists
+            </Text>
+          </Button>
+        </View>
+
+        <ScrollView>
+          {/* <TouchableOpacity onPress={() => this.refresh()}> */}
+          {/* <Text></Text> */}
+          {/* <Button 
                 transparent
                 onPress={() => this.refresh()}
                 style={{height: 30}}>
                 <Icon style={{color: 'black'}} name="refresh" />
               </Button> */}
-            {/* </TouchableOpacity> */}
-        <View style={{ flex: 1}}>
-          <View
-            style={{
-           backgroundColor:'grey',
-              height: 150,
-              justifyContent: 'center',
-            }}>
-            <Text style={{fontSize: 30, textAlign: 'center',fontWeight:'bold'}}>
-              This is Your Wishlist
-            </Text>
-          </View>
-          {this.state.Wishlist.map((Wishlist,index)=>(
-          <View style={{ flex: 1}}
-          key={index}>
-              
-            <View style={{height: 300}}>
-              <View
-                style={{
-                  height: 185,
-                  width: 124,
-                  top:20,
-                  borderRadius: 15,
-                
-                  flexDirection:'row',
-                  marginHorizontal:40
-                }}>
-                <Image
-                  style={{height: 185, width: 124, borderRadius: 15}}
-                  source={{uri : Wishlist.image_url}}
-                />
-                  <View style={{top: 40, paddingLeft: 10, alignItems: 'center'}}>
-                  <Text style={{fontSize: 30}}>{Wishlist.Author}</Text>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight:'bold',
-                      alignItems: 'center',
-                     
-                    }}>
-                    {Wishlist.tittle}
-                  </Text>
-                </View>
-                
-               
-              </View>
+          {/* </TouchableOpacity> */}
+          <View style={{  backgroundColor: 'black',
+                 color: '#ccc',flex:1}}>
+            <View
+              style={{
+                backgroundColor: 'grey',
+                height: 150,
+                justifyContent: 'center',
+              }}>
+              <Image
+                style={{height: 150, width: 400}}
+                source={require('./assets/dark.jpg')}
+              />
             </View>
-          
+            {this.state.Wishlist.map((Wishlist, index) => (
+              <View style={{flex: 1}} key={index}>
+                <View style={{height: 200}}>
+                  <View
+                    style={{
+                      top: 20,
+                      height: 185,
+                      width: 200,
+                      borderRadius: 15,
+
+                      flexDirection: 'row',
+                      marginHorizontal: 40,
+                    }}>
+                    <Image
+                      style={{height: 130, width: 90, borderRadius: 15}}
+                      source={{uri: Wishlist.image_url}}
+                    />
+                    <View
+                      style={{top: 20, paddingLeft: 10, alignItems: 'center'}}>
+                      <Text style={{fontSize: 30}}>
+                        {this.dateFormat(Wishlist.borrow_at)}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 'bold',
+                          alignItems: 'center',
+                          color:'white',
+                          left:40
+                        }}>
+                        {Wishlist.tittle}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            ))}
           </View>
-            ))} 
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
