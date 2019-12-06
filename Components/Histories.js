@@ -1,62 +1,40 @@
 import React,{Component} from 'react'
-import {View,Text,TouchableOpacity,Image,StyleSheet,Alert} from 'react-native'
+import {View,Text,TouchableOpacity,Image,StyleSheet,} from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
-import decode from 'jwt-decode';
+import Navbar from './Navbar'
 
-
-class UserProfile extends Component{
+class Histories extends Component{
     constructor(props){
        
         super(props) 
         this.state={
-            isToken:false,
-            username:'',
-            email:''
+            isToken:false
         }
     }
-    async componentDidMount() {
-      const data = await AsyncStorage.getItem('jwt');
-      console.log(decode(data));
-      const profile = decode(data);
-      this.setState({
-        username: profile.result.username,
-        email: profile.result.email
-      });
-   
-    }
     async deleteToken  (){
-      Alert.alert(
-        'Logout',
-        'Are You Sure Want to Logout ?',
-        [
-         
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: async() => {
-            try {
-        
-              await AsyncStorage.removeItem('jwt')
-              this.props.navigation.navigate('Login')
-            } catch (err) {
-              console.log(`The error is: ${err}`)
-            }
-
-          }},
-        ],
-        {cancelable: false},
-      )
-      
-     
+      try {
+        await AsyncStorage.removeItem('jwt')
+        this.props.navigation.navigate('login')
+      } catch (err) {
+        console.log(`The error is: ${err}`)
+      }
     }
     
     
     render(){
-      let token = AsyncStorage.jwt  
+      
+
+    let token = AsyncStorage.jwt  //jwt nama localstoragenya
     console.log('local',AsyncStorage,token)
-   
+    // let profile,username,level,email, id
+    // if(token){
+    //   profile = decode(token)
+    //   level = profile.result.level
+    //   username=profile.result.username
+    //   email = profile.result.email
+    //   id= profile.result.id
+    //   console.log("ini levelnya",level,username)
+    // console.log("ini profile",profile,level)
         return(
             <View style={{backgroundColor:'#3bbce3',flex:1}}>
                 <View style={{backgroundColor:'#bec4c4',height:400}}>
@@ -71,12 +49,12 @@ class UserProfile extends Component{
                         style={{height:200,width:200,borderRadius:100}} />
 
                     </View>
-                    <Text style={{fontSize:23,textAlign:'center'}}> {this.state.username}</Text>
+                    <Text style={{fontSize:23,textAlign:'center'}}> Username</Text>
 
                    
                 </View>
                 <View>
-                <Text style={{fontSize:23,textAlign:'center',backgroundColor:'#bec4c4',borderColor:'white'}}>{this.state.email}</Text>
+                <Text style={{fontSize:23,textAlign:'center',backgroundColor:'#bec4c4',borderColor:'white'}}> Email</Text>
                 </View>
                 <View style={{height:110,}}>
                   
@@ -93,7 +71,7 @@ class UserProfile extends Component{
         )
     }
 }
-export default UserProfile
+export default Histories
 
 
 const styles = StyleSheet.create({

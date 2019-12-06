@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet,RefreshControl} from 'react-native';
+import {View, Text, TouchableOpacity,Icon, Button,Image, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Navbar from './Navbar';
 import decode from 'jwt-decode';
@@ -7,40 +7,64 @@ import axios from 'axios';
 
 import Histroies from './Histories';
 import {ScrollView} from 'react-native-gesture-handler';
-class History extends Component {
+class Wishlist extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      history: [],
+      Wishlist: [],
+      
     };
   }
+  // async refresh() {
+  //   const userToken = await AsyncStorage.getItem('jwt');
+  //   const user = await decode(userToken);
+  //   const userId = user.result.id;
+  //   axios
+  //     .get(
+  //       `http://192.168.100.155:9000/history/${userId}`,
+  //     )
+  //     .then(result => {
+  //       this.setState({
+  //         Wishlists: result.data.response,
+  //       });
+  //     })
+  //   }
 
   async componentDidMount() {
     const userToken = await AsyncStorage.getItem('jwt');
     const user = await decode(userToken);
     const userId = user.result.id;
-    console.log('inininini', userId, 'user');
-    axios
-      .get(`http://192.168.100.155:9000/history/${userId}`)
-      .then(result => {
-        console.log(result, 'res');
-        this.setState({
-          history: result.data.response,
-        });
-        console.log('result data', result.data.response);
-        console.log('object', this.state.history);
-      })
-      .catch(error => {
-        console.log(error);
+    this.setState({refresh:false})
+    
+  
+   axios.get(`http://192.168.100.155:9000/wishlists/${userId}`).then(result => {
+      console.log(result, 'res');
+      this.setState({
+        Wishlist: result.data.response,
       });
+      console.log('result data', result.data.response);
+      console.log('object', this.state.Wishlist);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
-    console.log(userId);
-    console.log("object",result.data.response)
+  console.log(userId);
   }
 
   render() {
     return (
+      
       <ScrollView>
+         {/* <TouchableOpacity onPress={() => this.refresh()}> */}
+                  {/* <Text></Text> */}
+              {/* <Button 
+                transparent
+                onPress={() => this.refresh()}
+                style={{height: 30}}>
+                <Icon style={{color: 'black'}} name="refresh" />
+              </Button> */}
+            {/* </TouchableOpacity> */}
         <View style={{ flex: 1}}>
           <View
             style={{
@@ -49,18 +73,19 @@ class History extends Component {
               justifyContent: 'center',
             }}>
             <Text style={{fontSize: 30, textAlign: 'center',fontWeight:'bold'}}>
-              This is Your History
+              This is Your Wishlist
             </Text>
           </View>
-          {this.state.history.map((history,index)=>(
+          {this.state.Wishlist.map((Wishlist,index)=>(
           <View style={{ flex: 1}}
           key={index}>
+              
             <View style={{height: 300}}>
               <View
                 style={{
-                  top:20,
                   height: 185,
                   width: 124,
+                  top:20,
                   borderRadius: 15,
                 
                   flexDirection:'row',
@@ -68,10 +93,10 @@ class History extends Component {
                 }}>
                 <Image
                   style={{height: 185, width: 124, borderRadius: 15}}
-                  source={{uri : history.image_url}}
+                  source={{uri : Wishlist.image_url}}
                 />
                   <View style={{top: 40, paddingLeft: 10, alignItems: 'center'}}>
-                  <Text style={{fontSize: 18}}>{history.status}</Text>
+                  <Text style={{fontSize: 30}}>{Wishlist.Author}</Text>
                   <Text
                     style={{
                       fontSize: 20,
@@ -79,24 +104,22 @@ class History extends Component {
                       alignItems: 'center',
                      
                     }}>
-                    {history.tittle}
+                    {Wishlist.tittle}
                   </Text>
-                  
                 </View>
+                
+               
               </View>
             </View>
           
           </View>
             ))} 
-            
         </View>
-        
-        
       </ScrollView>
     );
   }
 }
-export default History;
+export default Wishlist;
 
 const styles = StyleSheet.create({
   button: {

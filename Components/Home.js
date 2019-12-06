@@ -10,13 +10,16 @@ import {
   StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Icona from 'react-native-vector-icons/Entypo';
+
 import {getBook} from '../Redux/Actions/book';
 import {connect} from 'react-redux';
 
 import {Badge} from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import Iconza from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
+import Navbar from './Navbar'
+
 
 class Home extends Component {
   constructor() {
@@ -26,16 +29,18 @@ class Home extends Component {
     };
   }
   async componentDidMount() {
+
    
     try {
       await this.props.dispatch(getBook());
-      // console.log(this.props.data.bookData);
+     
       this.setState({
         bookData: this.props.data.bookData,
      
       });
+      console.log('asyncstorage',await AsyncStorage.getItem('jwt'))
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   }
   
@@ -285,46 +290,13 @@ class Home extends Component {
           </View>
         </ScrollView>
     
-        <View
-          style={{height: 54, backgroundColor: 'white', flexDirection: 'row'}}>
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icon name={'ios-home'} size={28} color={'black'} />
-
-            <Text>Home</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icon name={'ios-clock'} size={28} color={'black'} />
-
-            <Text> History</Text>
-          </View>
-
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icona name={'user'} size={28} color={'black'} />
-
-            <Text> Profile </Text>
-          </View>
-        </View>
+        {/* <Navbar changePage={() => this.props.navigation.navigate('UserProfile')}/> */}
       </View>
     );
   }
 }
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({});
 
 const mapStateToProps = state => {
   return {
@@ -332,3 +304,4 @@ const mapStateToProps = state => {
   };
 };
 export default connect(mapStateToProps)(Home);
+// export default Home

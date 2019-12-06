@@ -8,3 +8,4 @@ import Login from './Components/Login';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
+console.disableYellowBox = true

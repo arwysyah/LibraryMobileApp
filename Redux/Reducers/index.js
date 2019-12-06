@@ -14,7 +14,7 @@ import {Auth} from './Users'
 // import {updateStatus} from './updatestatus'
 // import {postHistory} from './History'
 // import {postWishlist} from './wishlist'
-// import {deleteInWishlist} from './wishlist'
+import {borrow} from './Borrow'
 
 const appReducer = combineReducers({
   getBooks,
@@ -23,9 +23,9 @@ const appReducer = combineReducers({
   // getStatus,
   // getTitle,
   // getCategories,
-  // postHistory,
+borrow,
   Auth,
-  // updateStatus,
+  
   // postWishlist,
   // deleteInWishlist
 });

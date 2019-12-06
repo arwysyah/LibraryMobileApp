@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import axios from 'axios';
+import Axios from 'axios';
 import {
   //   SafeAreaView,
   //   StyleSheet,
@@ -10,7 +10,7 @@ import {
   Text,
   //   Image,
   TextInput,
-  TouchableOpacity,
+  TouchableOpacity,ToastAndroid
   //   StatusBar,
 } from 'react-native';
 import Iconz from 'react-native-vector-icons/FontAwesome5';
@@ -33,15 +33,16 @@ class Register extends Component {
       username: this.state.username,
     };
 
-    axios.post(`http://192.168.100.155:8000/user/Register`, formData).then(res => {
+    Axios.post(`http://192.168.100.155:9000/user/register`, formData).then(res => {
       console.log(
         'ini res, response,token',
         res,
         res.data.message,
         res.data.succes,
-        res.data.token,)
+        res.data.token,);ToastAndroid.show("Register succes",ToastAndroid.SHORT)
     this.props.navigation.navigate('Login')
-      }).catch(error=>{
+      })
+      .catch(error=>{
           console.log(error)
       })
   }
@@ -59,12 +60,12 @@ class Register extends Component {
             }}>
             <Text
               style={{
-                fontSize: 34,
+                fontSize: 25,
                 fontWeight: 'bold',
                 color: '#4B4C72',
                 textAlign: 'center',
               }}>
-              Welcome to My Website Please Register
+            Welcome to My Library Mobile App
             </Text>
           </View>
           <View
@@ -113,6 +114,7 @@ class Register extends Component {
                 onChangeText={password => this.setState({password: password})}
                 // value={dataPostLogin.password}
                 placeholder={'input'}
+                secureTextEntry={true}
                 placeholder={''}
                 style={{
                   backgroundColor: '#E5E6EE',

@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from "axios";
+
 import {
   //   SafeAreaView,
   //   StyleSheet,
@@ -8,12 +9,14 @@ import {
   Spinner,
   View,
   Text,
+  ToastAndroid,
   //   Image,
     TextInput,
     TouchableOpacity,
   //   StatusBar,
 } from 'react-native';
 import Iconz from 'react-native-vector-icons/FontAwesome5';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class Login extends Component{
   constructor(props){
@@ -22,6 +25,18 @@ class Login extends Component{
         password: '',
         email :'',
       loginKey:false
+    }
+
+  }
+  async componentDidMount() {
+    try {
+      if (await AsyncStorage.getItem('jwt')) {
+        this.props.navigation.navigate('App');
+      } else {
+        this.props.navigation.navigate('AuthScreen');
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -32,18 +47,22 @@ class Login extends Component{
     }
     
     
-    axios.post(`http://192.168.100.155:8000/user/login`,formData)
+    axios.post(`http://192.168.100.155:9000/user/login`,formData)
   .then((res)=>{console.log('ini res, response,token',res,res.data.message,res.data.succes,res.data.token);
+  
    if(res.data.succes === 1){
       AsyncStorage.setItem('jwt', res.data.token)
       this.setState({
         loginKey : true
-      })
+       
+      })(ToastAndroid.show('Login Success', ToastAndroid.SHORT)) 
     }else{
       alert(res.data.message)
     }
-    
+    console.log('async',AsyncStorage)
 
+  }).catch(err =>{
+    console.log(err)
   })
   
     console.log(formData)
@@ -62,18 +81,18 @@ class Login extends Component{
     return(
 
 
-
+<ScrollView>
 
     <View style={{ flex:1}}>
       <View style={{height:60}}></View>
-      <View style={{backgroundColor:'white',height:40,alignItems:'center'}}>
-      <Text style={{fontSize: 34, fontWeight: 'bold', color: '#4B4C72'}}>
+      <View style={{backgroundColor:'white',height:80,alignItems:'center'}}>
+      <Text style={{fontSize: 25, fontWeight: 'bold', color: '#4B4C72'}}>
 
-      Welcome to My Website
+      Welcome to My Library Mobile App
       </Text> 
       </View>
       <View style={{
-      height:10,alignItems:'center'}}>
+      height:60,alignItems:'center'}}>
      
    
       </View>
@@ -81,6 +100,7 @@ class Login extends Component{
         <Text>Email</Text>
         <View style={{justifyContent:'center'}}>
           <TextInput 
+        
           onChangeText={(email) => this.setState({email: email})}
           // value={dataPostLogin.}
           style={{   backgroundColor: '#E5E6EE',
@@ -98,10 +118,11 @@ class Login extends Component{
             // value={dataPostLogin.password}
           placeholder={'input'}
           placeholder={''}
+          secureTextEntry={true}
           style={{   backgroundColor: '#E5E6EE',
           borderWidth: 1,
           borderRadius: 0,
-         
+          
           height: 30,
           width:284}} />
         </View>
@@ -141,6 +162,7 @@ class Login extends Component{
     
 
     </View>
+    </ScrollView>
   );
     
   }
