@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
+  StyleSheet,TouchableOpacity
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import decode from 'jwt-decode';
@@ -18,6 +18,26 @@ export default class History extends Component {
       history: [],
     };
   }
+  async refresh() {
+    const userToken = await AsyncStorage.getItem('jwt');
+    this.setState({
+      userId: decode(userToken),
+    });
+    
+    const user = await decode(userToken);
+    const userId = user.result.id;
+    
+    axios
+      .get(
+        `https://mybookcollections.herokuapp.com/history/${userId}`,
+      )
+      .then(result => {
+        this.setState({
+          history: result.data.response,
+        });
+      })
+      .catch(error => console.log(error));
+  }
 
   async componentDidMount() {
     const userToken = await AsyncStorage.getItem('jwt');
@@ -25,7 +45,7 @@ export default class History extends Component {
     const userId = user.result.id;
     console.log('inininini', userId, 'user');
     axios
-      .get(`http://192.168.100.155:9000/history/${userId}`)
+      .get(`https://mybookcollections.herokuapp.com/history${userId}`)
       .then(result => {
         // console.log(result, 'res');
         this.setState({
@@ -105,16 +125,26 @@ export default class History extends Component {
             onPress={() => {
               this.props.navigation.goBack();
             }}>
-               
-            <Icon style={{color: 'white'}} name="arrow-back" />
-            <Text
-              style={{color: 'white', fontSize: 23, alignContent: 'center',left:-140,fontWeight:"bold"}}>
+               <Text
+              style={{color: 'white', fontSize: 23, alignContent: 'center',left:140,fontWeight:"bold"}}>
               History
             </Text>
+            <Icon style={{color: 'white',right:310}} name="arrow-back" />
+            
           </Button>
+         
+
         </View>
 
         <ScrollView>
+        <TouchableOpacity onPress={() => this.refresh()}>
+              <Button
+                transparent
+                onPress={() => this.refresh()}
+                style={{height: 30}}>
+                <Icon style={{color: 'white',right:-310}} name="refresh" />
+              </Button>
+            </TouchableOpacity>
           <View style={{flex: 1,
              
                 backgroundColor: 'black',

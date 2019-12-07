@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet,TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import decode from 'jwt-decode';
 import axios from 'axios';
@@ -13,20 +13,20 @@ class Wishlist extends Component {
       Wishlist: [],
     };
   }
-  // async refresh() {
-  //   const userToken = await AsyncStorage.getItem('jwt');
-  //   const user = await decode(userToken);
-  //   const userId = user.result.id;
-  //   axios
-  //     .get(
-  //       `http://192.168.100.155:9000/history/${userId}`,
-  //     )
-  //     .then(result => {
-  //       this.setState({
-  //         Wishlists: result.data.response,
-  //       });
-  //     })
-  //   }
+  async refresh() {
+    const userToken = await AsyncStorage.getItem('jwt');
+    const user = await decode(userToken);
+    const userId = user.result.id;
+    axios
+      .get(
+        `https://mybookcollections.herokuapp.com/wishlists/${userId}`,
+      )
+      .then(result => {
+        this.setState({
+          Wishlists: result.data.response,
+        });
+      })
+    }
 
   async componentDidMount() {
     const userToken = await AsyncStorage.getItem('jwt');
@@ -35,7 +35,7 @@ class Wishlist extends Component {
     this.setState({refresh: false});
 
     axios
-      .get(`http://192.168.100.155:9000/wishlists/${userId}`)
+      .get(`https://mybookcollections.herokuapp.com/wishlists/${userId}`)
       .then(result => {
         // console.log(result, 'res');
         this.setState({
@@ -120,15 +120,15 @@ class Wishlist extends Component {
         </View>
 
         <ScrollView>
-          {/* <TouchableOpacity onPress={() => this.refresh()}> */}
-          {/* <Text></Text> */}
-          {/* <Button 
+          
+           <TouchableOpacity onPress={() => this.refresh()}>
+              <Button
                 transparent
                 onPress={() => this.refresh()}
                 style={{height: 30}}>
-                <Icon style={{color: 'black'}} name="refresh" />
-              </Button> */}
-          {/* </TouchableOpacity> */}
+                <Icon style={{color: 'white',right:-170}} name="refresh" />
+              </Button>
+            </TouchableOpacity>
           <View style={{  backgroundColor: 'black',
                  color: '#ccc',flex:1}}>
             <View

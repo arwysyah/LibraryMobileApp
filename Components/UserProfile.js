@@ -58,25 +58,25 @@ class UserProfile extends Component{
     console.log('local',AsyncStorage,token)
    
         return(
-            <View style={{backgroundColor:'#3bbce3',flex:1}}>
-                <View style={{backgroundColor:'#bec4c4',height:400}}>
-                    <View style={{backgroundColor:'#3bbce3',height:120}}>
+            <View style={{backgroundColor:'black',flex:1}}>
+                <View style={{backgroundColor:'black',height:400}}>
+                    <View style={{backgroundColor:'black',height:120}}>
                         <View style={{height:50}}
                         ></View>
-                        <Text style={{alignContent:'center',marginTop:15,textAlign:'center',fontSize:35,fontWeight:'bold'}}> User Profile</Text>
+                        <Text style={{alignContent:'center',marginTop:15,textAlign:'center',fontSize:35,fontWeight:'bold',color:'white'}}> User Profile</Text>
                     </View>
-                    <View style={{backgroundColor:'#3bbce3',height:250,justifyContent:'center',alignItems:'center'}}>
+                    <View style={{backgroundColor:'black',height:250,justifyContent:'center',alignItems:'center'}}>
                         <Image 
                         source={require('./assets/profileuser.png')}
                         style={{height:200,width:200,borderRadius:100}} />
 
                     </View>
-                    <Text style={{fontSize:23,textAlign:'center'}}> {this.state.username}</Text>
+                    <Text style={{fontSize:23,textAlign:'center',color:'white'}}> {this.state.username}</Text>
 
                    
                 </View>
                 <View>
-                <Text style={{fontSize:23,textAlign:'center',backgroundColor:'#bec4c4',borderColor:'white'}}>{this.state.email}</Text>
+                <Text style={{fontSize:23,textAlign:'center',backgroundColor:'black',color:'white',borderColor:'white'}}>{this.state.email}</Text>
                 </View>
                 <View style={{height:110,}}>
                   
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
       height: 35,
       width: 120,
       // shadowColor:'black',
-      backgroundColor: 'yellow',
+      backgroundColor: 'white',
       borderRadius: 15,
       // shadowOpacity:100,
       borderTopColor:'black',

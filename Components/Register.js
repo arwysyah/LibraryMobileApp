@@ -10,9 +10,10 @@ import {
   Text,
   //   Image,
   TextInput,
-  TouchableOpacity,ToastAndroid
+  ToastAndroid,  TouchableOpacity,
   //   StatusBar,
 } from 'react-native';
+
 import Iconz from 'react-native-vector-icons/FontAwesome5';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -33,7 +34,7 @@ class Register extends Component {
       username: this.state.username,
     };
 
-    Axios.post(`http://192.168.100.155:9000/user/register`, formData).then(res => {
+    Axios.post(`https://mybookcollections.herokuapp.com/user/register`, formData).then(res => {
       console.log(
         'ini res, response,token',
         res,
@@ -62,7 +63,7 @@ class Register extends Component {
               style={{
                 fontSize: 25,
                 fontWeight: 'bold',
-                color: '#4B4C72',
+                color: 'white',
                 textAlign: 'center',
               }}>
             Welcome to My Library Mobile App
@@ -140,7 +141,7 @@ class Register extends Component {
                 Register
               </Text>
               <TouchableOpacity onPress={this.registerUser.bind(this)}>
-                <Iconz name={'arrow-circle-right'} size={48} color={'blue'} />
+                <Iconz name={'arrow-circle-right'} size={48} color={'green'} />
               </TouchableOpacity>
             </View>
           </View>
@@ -150,7 +151,12 @@ class Register extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
+           
             <View style={{alignItems: 'center'}}>
+            <TouchableOpacity
+              onPress={() => {
+                  this.props.navigation.navigate('Login');
+                }}>
               <Text
                 style={{
                   fontSize: 20,
@@ -162,8 +168,11 @@ class Register extends Component {
                   alignItems:'center'
                 }}>
                 Sign In
+                
               </Text>
+              </TouchableOpacity>
             </View>
+           
             <View>
               {/* <Text
                 style={{

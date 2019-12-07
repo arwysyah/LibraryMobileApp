@@ -15,17 +15,19 @@ export default class SplashScreen extends Component {
       } else {
         this.props.navigation.navigate('App');
       }
-    }, 5000);
+    }, 1000);
   }
 
   render() {
     return (
+      <View style={{backgroundColor:'black',flex:1}}>
       <View
         style={{
           height: 300,
           alignContent: 'center',
           justifyContent: 'center',
           top: 150,
+          backgroundColor:'black'
         }}>
         <Text style={{textAlign: 'center', fontSize: 40, color: 'green'}}>
           Welcome To Library Mobile App
@@ -49,6 +51,7 @@ export default class SplashScreen extends Component {
                         }}
                       />
         <Text style={{textAlign:'center',top:20,color:'green'}}>This Mobile APP created by ARWY SYAHPUTRA SIREGAR</Text>
+      </View>
       </View>
     );
   }

@@ -72,7 +72,7 @@ disabled:false
               id_book: idBook,
             };
             console.log('tipe', typeof formData);
-            await Axios.post('http://192.168.100.155:9000/wishlist', formData);
+            await Axios.post('https://mybookcollections.herokuapp.com/wishlist', formData);
             console.log('succes');
             ToastAndroid.show('Succes Wishlist', ToastAndroid.SHORT);
             // await this.props.dispatch(addBorrow(userId, userToken, formData))
@@ -118,18 +118,16 @@ disabled:false
             // console.log('id_user', userId);
             // console.log('id BOOKs', idBook);
             await Axios.post(
-              'http://192.168.100.155:9000/borrow',
-              formData,
+              'https://mybookcollections.herokuapp.com/history',formData,
             ).then(() => {
               Axios.put(
-                `http://192.168.100.155:9000/book/${idBook}`,
+                `https://mybookcollections.herokuapp.com/book${idBook}`,
                 updateStatus,
               );
             });
             console.log('updateStatus');
             ToastAndroid.show('Succes Borrow', ToastAndroid.SHORT);
-            // await this.props.dispatch(addBorrow(userId, userToken, formData))
-            // this.checkBorrowed()
+           
           } catch (error) {
             console.log('error', error);
           }
@@ -153,12 +151,12 @@ disabled:false
             const user = await decode(userToken);
             const userId = user.result.id;
 
-            // console.log('resu',user.result) //ini penting
+          
             const detail = this.props.navigation.getParam('book');
             const idBook = detail.id;
             const status = detail.status;
             console.log(status, 'status');
-            // console.log('data',data.id,idBook) //navigator
+          
             let formData = {
               id_user: userId,
               id_book: idBook,
@@ -170,18 +168,17 @@ disabled:false
             console.log('id_user', userId);
             console.log('id BOOKs', idBook);
             await Axios.post(
-              'http://192.168.100.155:9000/borrow',
+              'https://mybookcollections.herokuapp.com/borrow',
               formData,
             ).then(() => {
               Axios.put(
-                `http://192.168.100.155:9000/book/${idBook}`,
+                `https://mybookcollections.herokuapp.com/book/${idBook}`,
                 updateStatus,
               );
             });
             console.log('updateStatus');
             ToastAndroid.show('Succes Return', ToastAndroid.SHORT);
-            // await this.props.dispatch(addBorrow(userId, userToken, formData))
-            // this.checkBorrowed()
+           
           } catch (error) {
             console.log('error', error);
           }
@@ -190,15 +187,7 @@ disabled:false
       },
     ]);
   }
-  //  .then(() =>
 
-  // swal("Thank You for Using Our Services!", {
-  //     icon: "success"
-  //   })
-  // )
-  // .then(()=>{window.location.href="/"
-
-  // })
 
   render() {
     console.log('update status')
@@ -306,7 +295,7 @@ disabled:false
               flexDirection: 'row',
               marginHorizontal: 22,
             }}>
-              <View>
+              
                 {detail.status == 'Available' ? 
            
            <TouchableOpacity
@@ -329,7 +318,7 @@ disabled:false
             <Text style={{fontSize: 18}}> Return</Text>
           </TouchableOpacity>
   }
-            </View>
+           
             <TouchableOpacity
             ctiveOpacity={this.state.disabled ? 1 : 0.7}
               onPress={this.handleWishlist.bind(this)}
@@ -338,10 +327,10 @@ disabled:false
             >
               
                 <Text style={{fontSize: 18}}> Wishlist</Text>
-     
+              
             </TouchableOpacity>
-          </View>
        
+          </View>
       </View>
       </ScrollView>
       </View>

@@ -4,7 +4,7 @@ export const postLogin = () => {
   return {
 
     type: "POST_LOGIN",
-    payload: Axios.post("http://192.168.100.155:8000/user/login")
+    payload: Axios.post("https://mybookcollections.herokuapp.com//user/login")
   }
 
 };
@@ -12,6 +12,6 @@ export const postLogin = () => {
 export const postRegister = (dataRegister)=> {
   return{
     type: "POST_REGISTER",
-    payload : Axios.post(`http://192.168.100.155:8000/user/register`,dataRegister)
+    payload : Axios.post(`https://mybookcollections.herokuapp.com/user/register`,dataRegister)
   }
 }
