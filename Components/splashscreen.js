@@ -3,20 +3,26 @@ import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import {Image} from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 export default class SplashScreen extends Component {
-  componentDidMount() {
-    //   setTimeout(()=>{
 
-    //     this.props.navigation.navigate('AuthScreen');
-
-    //  },6000)
-    setTimeout(() => {
-      if (AsyncStorage.getItem('jwt')) {
-        this.props.navigation.navigate('AuthScreen');
+ async componentDidMount() {
+  {
+    try {
+      if (await AsyncStorage.getItem('jwt')) {
+        setTimeout(() => {
+          // go to Home page
+          this.props.navigation.navigate('App');
+        }, 3000);
       } else {
-        this.props.navigation.navigate('App');
+        setTimeout(() => {
+          // go to Login page
+          this.props.navigation.navigate('AuthScreen');
+        }, 3000);
       }
-    }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
   }
+}
 
   render() {
     return (
